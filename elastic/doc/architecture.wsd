@@ -1,0 +1,36 @@
+@startuml
+allowmixing
+
+package "Data Processing" {
+    object "Data.csv (Myntra Product)" as data_csv
+    object "Process Pandas" as pandas
+    object "Vector (SBERT)" as sbert
+}
+
+package "Elasticsearch" {
+    object "Index" as index
+    object "Mapping" as mapping
+}
+
+package "Frontend" {
+    object "Search" as search
+    object "Streamlit" as streamlit
+}
+
+actor User
+
+data_csv --> pandas : process
+pandas --> sbert : vectorize
+sbert --> index : index vectors
+
+index --> mapping : associate
+
+search --> Elasticsearch : query
+streamlit --> search : initiate
+User --> streamlit : interact
+streamlit --> User : display results
+
+cloud K8s {
+    streamlit --> K8s : deploy
+}
+@enduml

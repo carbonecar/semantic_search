@@ -1,0 +1,4 @@
+python -m pip install elasticsearch
+sentence_transformers
+tf_keras
+streamlit
